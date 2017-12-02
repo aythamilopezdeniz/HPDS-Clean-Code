@@ -7,168 +7,20 @@ public class PruebaContenedor {
     private static File Fichero_NoDatos;
     private static RandomAccessFile FicheroDat;
     private static RandomAccessFile FicheroNoDat;
-
-    private static void crearArraysDeDatos() {
-        ArrayDat=new int[100000];
-        ArrayNoDat=new int[20000];
-        try{
-            crearFicheros();
-            tipoAcceso();
-
-            rellenarArray(ArrayDat, FicheroDat);
-            rellenarArray(ArrayNoDat, FicheroNoDat);
-
-            cerrarFicheros();
-
-        }catch(Exception E){
-            System.out.println("No se encuentra el fichero");
-        }
-    }
-
-    private static void crearFicheros() {
-        FicheroDatos = new File("datos.dat");
-        Fichero_NoDatos = new File("datos_no.dat");
-    }
-
-    private static void tipoAcceso() throws FileNotFoundException {
-        FicheroDat = new RandomAccessFile(FicheroDatos, "r");
-        FicheroNoDat = new RandomAccessFile(Fichero_NoDatos, "r");
-    }
-
-    private static void rellenarArray(int[] array, RandomAccessFile file) throws Exception {
-        for (int i = 0; i < array.length; i++) {
-            array[i] = file.readInt();
-        }
-    }
-
-    private static void cerrarFicheros() throws IOException {
-        FicheroDat.close();
-        FicheroNoDat.close();
-    }
+    private static long TiempoInicial;
+    private static int NElementos;
+    private static int i;
+    private static FileWriter FicheroFinal;
+    private static PrintWriter WriteFicheroResultado;
+    private static ContenedorDeEnteros Vector;
+    private static int TiempoTotal;
 
     public static void main(String[] args) {
-        /*ContenedorDeEnteros a = new ContenedorDeEnteros(10);
-        int[] v;
-        System.out.println("El contenedor a tiene "+a.cardinal()+" elementos.");
-        for(int i=0; i<10; i++){
-            a.insertar(i);
-            a.buscar(i);
-        }
-        System.out.println("El contenedor a tiene "+a.cardinal()+" elementos.");
-        v = a.elementos();
-        System.out.print("Vector v = [");
-        for (int i = 0; i <a.cardinal(); i++) {
-            System.out.print(v[i]);
-        }
-        System.out.println("]");
-        a.vaciar();
-        for(int i=0; i<100; i++){
-            a.insertar(i);
-            a.extraer(i);
-        }*/
-
+        System.out.print("Pruebas de funcionamiento");
         crearArraysDeDatos();
-
-        // Fichero que almacenará los resultados
-        PrintWriter WriteFicheroResultado;
-        try{
-            FileWriter FicheroFinal=new FileWriter("Resultado.txt");
-            WriteFicheroResultado=new PrintWriter(FicheroFinal);
-            WriteFicheroResultado.println("Resultados de la prueba:");
-            // Creo un contenedor de enteros
-            ContenedorDeEnteros Vector = new ContenedorDeEnteros(100000);
-            /***********************************************
-             ****************** INSERTAR ********************
-             ***********************************************/
-            // Inicializo el comienzo del recorrido
-            int i=0;
-            // Inicializo el número de elementos a 0
-            int NElementos=0;
-            // Calculo el tiempo inicial en milisegundos
-            long TiempoInicial = System.currentTimeMillis();
-            System.out.print("Tiempos de inserción:               ");
-            WriteFicheroResultado.println("Método insertar, resultados de cada 1000 inserciones:");
-            // Comenzamos a insertar los elementos
-            while(i<Vector.tamaño()){
-                // Inserta los 10.000 elementos en el contenedor
-                Vector.insertar(ArrayDat[i]);
-                // Llevar la cuenta del número de elementos
-                NElementos=NElementos+1;
-			   /* Si he insertado los 10.000 elementos, calculo el tiempo de
-			   inserción, pongo el contador a cero y obtengo el tiempo promedio*/
-                if(NElementos==10000){
-                    // Calculo el tiempo final en milisegundos
-                    long TiempoFinal = System.currentTimeMillis();
-                    // Calculo el tiempo promedio
-                    int TiempoTotal=(int)(TiempoFinal-TiempoInicial)/10;
-                    // Inicializo el número de elementos a 0
-                    NElementos=0;
-                    // Muestra el tiempo promedio y escribe en el fichero resultado el tiempo promedio
-                    if(TiempoTotal<10){
-                        System.out.print(TiempoTotal+"   ");
-                        WriteFicheroResultado.print(TiempoTotal+"  ");
-                    }else{
-                        if(TiempoTotal<100){
-                            System.out.print(TiempoTotal+"  ");
-                            WriteFicheroResultado.print(TiempoTotal+" ");
-                        }else{
-                            System.out.print(TiempoTotal+" ");
-                            WriteFicheroResultado.print(TiempoTotal+" ");
-                        }
-                    }
-                    // Calculo el tiempo inicial en milisegundos
-                    TiempoInicial = System.currentTimeMillis();
-                }
-                // Incremento el índice
-                i++;
-            }
-            /***********************************************
-             ******************* EXTRAER ********************
-             ***********************************************/
-            System.out.println();
-            // Inicializo el comienzo del recorrido
-            i=0;
-            // Inicializo el número de elementos a 0
-            NElementos=0;
-            // Calculo el tiempo inicial en milisegundos
-            TiempoInicial = System.currentTimeMillis();
-            System.out.print("Tiempos de extracción:              ");
-            WriteFicheroResultado.println("");
-            WriteFicheroResultado.println("Método extraer, resultados de cada 1000 extracciones:");
-            // Comenzamos a extraer los elementos
-            while(i<Vector.tamaño()){
-                // Extrae los 10.000 elementos en el contenedor
-                Vector.extraer(ArrayDat[i]);
-                // Llevo la cuenta del número de elementos
-                NElementos=NElementos+1;
-				/* Si he extraido los 10.000 elementos, calculo el tiempo de
-				extracción, pongo el contador a cero y obtengo el tiempo promedio*/
-                if(NElementos==10000){
-                    // Calculo el tiempo final en milisegundos
-                    long TiempoFinal = System.currentTimeMillis();
-                    // Calculo el tiempo promedio
-                    int TiempoTotal=(int)(TiempoFinal-TiempoInicial)/10;
-                    // Muestra el tiempo promedio y escribe en el fichero resultado el tiempo promedio
-                    if(TiempoTotal<10){
-                        System.out.print(TiempoTotal+"   ");
-                        WriteFicheroResultado.print(TiempoTotal+"  ");
-                    }else{
-                        if(TiempoTotal<100){
-                            System.out.print(TiempoTotal+"  ");
-                            WriteFicheroResultado.print(TiempoTotal+" ");
-                        }else{
-                            System.out.print(TiempoTotal+" ");
-                            WriteFicheroResultado.print(TiempoTotal+" ");
-                        }
-                    }
-                    // Inicializo el número de elementos a 0
-                    NElementos=0;
-                    // Calculo el tiempo inicial en milisegundos
-                    TiempoInicial = System.currentTimeMillis();
-                }
-                // Incremento el índice
-                i++;
-            }
+        insertarElementos();
+        extraerElementos();
+        try {
             /***********************************************
              ************** BÚSQUEDA EXITOSA ****************
              ***********************************************/
@@ -298,12 +150,122 @@ public class PruebaContenedor {
                 // Incremento el índice
                 i++;
             }
-            /*for (int j = 0; j < Vector.elementos().length; j++) {
-                System.out.println(Vector.elementos()[j]);
-            }
-            System.out.println();*/
         }catch(Exception E){
             System.out.println("No se encuentra el fichero");
+        }
+    }
+
+    private static void crearArraysDeDatos() {
+        ArrayDat=new int[100000];
+        ArrayNoDat=new int[20000];
+        try{
+            crearFicheros();
+            tipoAcceso();
+
+            rellenarArray(ArrayDat, FicheroDat);
+            rellenarArray(ArrayNoDat, FicheroNoDat);
+
+            cerrarFicheros();
+
+        }catch(Exception E){
+            System.out.println("No se encuentra el fichero");
+        }
+    }
+
+    private static void crearFicheros() throws IOException {
+        FicheroDatos = new File("datos.dat");
+        Fichero_NoDatos = new File("datos_no.dat");
+        FicheroFinal=new FileWriter("Resultado.txt");
+    }
+
+    private static void tipoAcceso() throws FileNotFoundException {
+        FicheroDat = new RandomAccessFile(FicheroDatos, "r");
+        FicheroNoDat = new RandomAccessFile(Fichero_NoDatos, "r");
+    }
+
+    private static void rellenarArray(int[] array, RandomAccessFile file) throws Exception {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = file.readInt();
+        }
+    }
+
+    private static void cerrarFicheros() throws IOException {
+        FicheroDat.close();
+        FicheroNoDat.close();
+    }
+
+    private static void insertarElementos() {
+        crearFicheroResultado();
+        initializedParameters();
+        crearContenedor();
+        System.out.print("Tiempos de inserción:               ");
+        editarFicheroResultado("Método insertar, resultados de cada 1000 inserciones:\n");
+        while (i < Vector.tamaño()) {
+            Vector.insertar(ArrayDat[i]);
+            NElementos++;
+            if (NElementos == 10000) {
+                long tiempoFinal = System.currentTimeMillis();
+                TiempoTotal = (int) (tiempoFinal - TiempoInicial) / 10;
+                NElementos = 0;
+                tiempoPromedio();
+                TiempoInicial = System.currentTimeMillis();
+            }
+            i++;
+        }
+    }
+
+    private static void initializedParameters() {
+        System.out.println();
+        i=0;
+        NElementos=0;
+        TiempoInicial = System.currentTimeMillis();
+    }
+
+    private static void crearContenedor() {
+        Vector = new ContenedorDeEnteros(100000);
+    }
+
+    private static void crearFicheroResultado() {
+        WriteFicheroResultado = new PrintWriter(FicheroFinal);
+        editarFicheroResultado("Resultados de la prueba:\n");
+    }
+
+    private static void editarFicheroResultado(String result) {
+        WriteFicheroResultado.println(result);
+    }
+
+    private static void tiempoPromedio() {
+        if (TiempoTotal < 10) {
+            System.out.print(TiempoTotal + "   ");
+            editarFicheroResultado(TiempoTotal + "   ");
+        } else {
+            if (TiempoTotal < 100) {
+                System.out.print(TiempoTotal + "  ");
+                editarFicheroResultado(TiempoTotal + "  ");
+            } else {
+                System.out.print(TiempoTotal + " ");
+                editarFicheroResultado(TiempoTotal + " ");
+            }
+        }
+    }
+
+    private static void extraerElementos() {
+        initializedParameters();
+        System.out.print("Tiempos de extracción:              ");
+        editarFicheroResultado("\n");
+        editarFicheroResultado("Método extraer, resultados de cada 1000 extracciones:");
+        editarFicheroResultado("\n");
+        while (i < Vector.tamaño()) {
+            Vector.extraer(ArrayDat[i]);
+            NElementos++;
+            if (NElementos == 10000) {
+                long TiempoFinal = System.currentTimeMillis();
+                TiempoTotal = (int) (TiempoFinal - TiempoInicial) / 10;
+                tiempoPromedio();
+                NElementos=0;
+                TiempoInicial = System.currentTimeMillis();
+            }
+            i++;
         }
     }
 }
