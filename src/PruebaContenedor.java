@@ -16,140 +16,13 @@ public class PruebaContenedor {
     private static int TiempoTotal;
 
     public static void main(String[] args) {
-        System.out.print("Pruebas de funcionamiento");
-        crearArraysDeDatos();
-        insertarElementos();
-        extraerElementos();
         try {
-            /***********************************************
-             ************** BÚSQUEDA EXITOSA ****************
-             ***********************************************/
-            System.out.println();
-            // Inicializo el comienzo del recorrido
-            i=0;
-            // Inicializo el número de elementos a 0
-            NElementos=0;
-            // Calculo el tiempo inicial en milisegundos
-            TiempoInicial = System.currentTimeMillis();
-            System.out.print("Tiempos de la búsqueda exitosa:     ");
-            WriteFicheroResultado.println("");
-            WriteFicheroResultado.println("Método Búsqueda Exitosa, resultados de cada 1000 búsquedas exitosas:");
-            // Comenzamos a extraer los elementos
-            while(i<Vector.tamaño()){
-                // Inserto los elementos del array de datos en el vector
-                Vector.insertar(ArrayDat[i]);
-                // Llevo la cuenta del número de elementos
-                NElementos++;
-                /* Si he insertado los 10.000 elementos, buscaré los elementos
-                 * insertados para luego calcular su tiempo promedio*/
-                if(NElementos==10000){
-                    // Incializo el comienzo del recorrido
-                    int j=0;
-                    // Inicializo el número de elementos
-                    NElementos=0;
-                    // Recorre todos los elementos del vector
-                    while(j<Vector.cardinal()){
-                        // Buscamos los elementos en el vector
-                        Vector.buscar(ArrayDat[j]);
-                        // Llevo la cuenta del número de elementos
-                        NElementos++;
-                        /*Compruebo que se han buscado todos los elementos para
-                         * luego calcular el tiempo promedio de búsqueda*/
-                        if(NElementos==Vector.cardinal()-1){
-                            // Calculo el tiempo final en milisegundos
-                            long TiempoFinal=System.currentTimeMillis();
-                            // Calculo el tiempo promedio
-                            int TiempoTotal=(int)(TiempoFinal-TiempoInicial)/(Vector.cardinal()/1000);
-                            // Muestra el tiempo promedio y escribe en el fichero resultado el tiempo promedio
-                            if(TiempoTotal<10){
-                                System.out.print(TiempoTotal+"   ");
-                                WriteFicheroResultado.print(TiempoTotal+"  ");
-                            }else{
-                                if(TiempoTotal<100){
-                                    System.out.print(TiempoTotal+"  ");
-                                    WriteFicheroResultado.print(TiempoTotal+" ");
-                                }else{
-                                    System.out.print(TiempoTotal+" ");
-                                    WriteFicheroResultado.print(TiempoTotal+" ");
-                                }
-                            }
-                            // Calculo el tiempo inicial en milisegundos
-                            TiempoInicial=System.currentTimeMillis();
-                            // Inicializo el número de elementos
-                            NElementos=0;
-                        }
-                        // Incrementa el índice
-                        j++;
-                    }
-                }
-                // Incremento el índice
-                i++;
-            }
-            /***********************************************
-             ************ BÚSQUEDA INFRUCTUOSA **************
-             ***********************************************/
-            Vector.vaciar();
-            System.out.println();
-            // Inicializo el comienzo del recorrido
-            i=0;
-            // Inicializo el número de elementos a 0
-            NElementos=0;
-            System.out.print("Tiempos de la búsqueda infructuosa: ");
-            WriteFicheroResultado.println("");
-            WriteFicheroResultado.println("Método Búsqueda Infructuosa, resultados de cada 1000 búsquedas infructuosas:");
-            // Comenzamos a extraer los elementos
-            while(i<Vector.tamaño()){
-                // Inserto los elementos del array de datos en el vector
-                Vector.insertar(ArrayDat[i]);
-                // Llevo la cuenta del número de elementos
-                NElementos++;
-                /*Si se han insertado los 10.000 elementos, buscaré los elementos
-                 * del fichero datos_no.dat para luego calcular el promedio*/
-                if(NElementos==10000){
-                    // Inicializo el comienzo del recorrido
-                    int j=0;
-                    // Inicializo el número de elementos a 0
-                    NElementos=0;
-                    // Calculo el tiempo inicial en milisegundos
-                    TiempoInicial = System.currentTimeMillis();
-                    // Recorremos todos los elementos del vector
-                    while(j<ArrayNoDat.length){
-                        // Busco los elementos del array de no datos en el vector
-                        Vector.buscar(ArrayNoDat[j]);
-                        // Llevo la cuenta del número de elementos
-                        NElementos++;
-                        /*Compruebo que se han buscado todos los elementos del arraynodat
-                         * para luego calcular el tiempo promedio de búsqueda*/
-                        if(NElementos==ArrayNoDat.length-1){
-                            // Calculo el tiempo final en milisegundos
-                            long TiempoFinal=System.currentTimeMillis();
-                            // Calculo el tiempo promedio
-                            int TiempoTotal=(int)(TiempoFinal-TiempoInicial)/(ArrayNoDat.length/1000);
-                            // Muestra el tiempo promedio y escribe en el fichero resultado el tiempo promedio
-                            if(TiempoTotal<10){
-                                System.out.print(TiempoTotal+"   ");
-                                WriteFicheroResultado.print(TiempoTotal+"  ");
-                            }else{
-                                if(TiempoTotal<100){
-                                    System.out.print(TiempoTotal+"  ");
-                                    WriteFicheroResultado.print(TiempoTotal+" ");
-                                }else{
-                                    System.out.print(TiempoTotal+" ");
-                                    WriteFicheroResultado.print(TiempoTotal+" ");
-                                }
-                            }
-                            // Calculo el tiempo inicial en milisegundos
-                            TiempoInicial=System.currentTimeMillis();
-                            // Inicializo el número de elementos
-                            NElementos=0;
-                        }
-                        // Incrementa el índice
-                        j++;
-                    }
-                }
-                // Incremento el índice
-                i++;
-            }
+            System.out.print("Pruebas de funcionamiento");
+            crearArraysDeDatos();
+            insertarElementos();
+            extraerElementos();
+            busquedaExitosa();
+            busquedaInfructuosa();
         }catch(Exception E){
             System.out.println("No se encuentra el fichero");
         }
@@ -157,7 +30,7 @@ public class PruebaContenedor {
 
     private static void crearArraysDeDatos() {
         ArrayDat=new int[100000];
-        ArrayNoDat=new int[20000];
+        ArrayNoDat = new int[20000];
         try{
             crearFicheros();
             tipoAcceso();
@@ -204,14 +77,17 @@ public class PruebaContenedor {
             Vector.insertar(ArrayDat[i]);
             NElementos++;
             if (NElementos == 10000) {
-                long tiempoFinal = System.currentTimeMillis();
-                TiempoTotal = (int) (tiempoFinal - TiempoInicial) / 10;
-                NElementos = 0;
-                tiempoPromedio();
-                TiempoInicial = System.currentTimeMillis();
+                calcularTiempo((int)(System.currentTimeMillis() - TiempoInicial) / 10);
             }
             i++;
         }
+    }
+
+    private static void calcularTiempo(int tiempo) {
+        TiempoTotal = tiempo;
+        NElementos = 0;
+        tiempoPromedio();
+        TiempoInicial = System.currentTimeMillis();
     }
 
     private static void initializedParameters() {
@@ -259,11 +135,55 @@ public class PruebaContenedor {
             Vector.extraer(ArrayDat[i]);
             NElementos++;
             if (NElementos == 10000) {
-                long TiempoFinal = System.currentTimeMillis();
-                TiempoTotal = (int) (TiempoFinal - TiempoInicial) / 10;
-                tiempoPromedio();
+                calcularTiempo((int) ((System.currentTimeMillis() - TiempoInicial) /10));
+            }
+            i++;
+        }
+    }
+
+    private static void busquedaExitosa() {
+        initializedParameters();
+        System.out.print("Tiempos de la búsqueda exitosa:     ");
+        editarFicheroResultado("\nMétodo Búsqueda Exitosa, resultados de cada 1000 búsquedas exitosas:\n");
+        while(i<Vector.tamaño()){
+            Vector.insertar(ArrayDat[i]);
+            NElementos++;
+            if(NElementos==10000){
+                int j=0;
+                NElementos=0;
+                while(j<Vector.cardinal()){
+                    Vector.buscar(ArrayDat[j]);
+                    NElementos++;
+                    if(NElementos==Vector.cardinal()-1){
+                        calcularTiempo((int)(System.currentTimeMillis()-TiempoInicial)/(Vector.cardinal()/1000));
+                    }
+                    j++;
+                }
+            }
+            i++;
+        }
+    }
+
+    private static void busquedaInfructuosa() {
+        Vector.vaciar();
+        initializedParameters();
+        System.out.print("Tiempos de la búsqueda infructuosa: ");
+        editarFicheroResultado("\nMétodo Búsqueda Infructuosa, resultados de cada 1000 búsquedas infructuosas:\n");
+        while(i<Vector.tamaño()){
+            Vector.insertar(ArrayDat[i]);
+            NElementos++;
+            if(NElementos==10000){
+                int j=0;
                 NElementos=0;
                 TiempoInicial = System.currentTimeMillis();
+                while(j<ArrayNoDat.length){
+                    Vector.buscar(ArrayNoDat[j]);
+                    NElementos++;
+                    if(NElementos==ArrayNoDat.length-1){
+                        calcularTiempo((int)(System.currentTimeMillis()-TiempoInicial)/(ArrayNoDat.length/1000));
+                    }
+                    j++;
+                }
             }
             i++;
         }
